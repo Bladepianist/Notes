@@ -17,30 +17,15 @@ namespace Notes
         async void OnSaveButtonClicked(object sender, EventArgs e)
         {
             var note = (Note)BindingContext;
-
-            if (string.IsNullOrWhiteSpace(note.FileName))
-            {
-                // Save
-                var filename = Path.Combine(App.FolderPath, $"{Path.GetRandomFileName()}.notes.text");
-                File.WriteAllText(filename, note.Text);
-            } else
-            {
-                // Update
-                File.WriteAllText(note.FileName, note.Text);
-            }
-
+            note.Date = DateTime.UtcNow;
+            await App.Database.SaveNoteAsync(note);
             await Navigation.PopAsync();
         }
 
         async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
             var note = (Note)BindingContext;
-
-            if (File.Exists(note.FileName))
-            {
-                File.Delete(note.FileName);
-            }
-
+            await App.Database.DeleteNoteAsync(note);
             await Navigation.PopAsync();
         }
     }
