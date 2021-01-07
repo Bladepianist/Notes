@@ -14,7 +14,7 @@ namespace Notes
             InitializeComponent();
             // FolderPath est initialisé à l'emplacement sur l'appareil où seront stockées les notes
             FolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new NotesPage());
         }
 
         protected override void OnStart()
